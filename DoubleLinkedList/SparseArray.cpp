@@ -30,6 +30,9 @@ class ArrayLinkedList {
     Node *head { };
     Node *tail { };
     int length = 0;
+    bool check_index(int index) {
+        return index >= 0 && index < length;
+    }
 
 public:
     ArrayLinkedList(int len) : length(len) {
@@ -67,7 +70,7 @@ public:
     }
 
     void set_value(int value, int index) {
-        if(index >= length || length < 0) return;
+        if(!check_index(index)) return;
 
         if(!head || head->index > index) {
             insert_front(value, index);
@@ -91,10 +94,17 @@ public:
     }
 
     int get_value(int index) {
+        if(!check_index(index)) {
+            cerr << "Invalid Index :(\n";
+            return -1e9 + 7;
+        }
         Node* curr = head;
-        while(curr && curr->index != index) curr = curr->next;
+        while(curr && curr->index != index) {
+            if(index < curr->index) return 0;
+            curr = curr->next;
+        }
         if(curr) return curr->data;
-        return -1e9;
+        return 0;
     }
 
     void print_array() {
@@ -130,32 +140,49 @@ public:
                 Node* prevCurr1 = curr1->prev;
                 Node* newNode = new Node(curr2->data, curr2->index);
                 link(prevCurr1, newNode);
-                link(newNode, curr2);
-
+                link(newNode, curr1);
                 curr2 = curr2->next;
             } else {
                 curr1 = curr1->next;
             }
-
         }
+
+        while(curr2) insert_end(curr2->data, curr2->index), curr2 = curr2->next;
     }
 };
 
 
 int main() {
 
-
-    // must see it, otherwise RTE
     ArrayLinkedList array(10);
     array.set_value(50, 5);
     array.set_value(20, 2);
     array.set_value(70, 7);
     array.set_value(40, 4);
-    array.set_value(10, 3);
-    array.set_value(1, 0);
 
 
-    array.print_array_nonzero();
+    array.print_array();
+
+    ArrayLinkedList array2(10);
+    array2.set_value(1, 4);
+    array2.set_value(3, 7);
+    array2.set_value(4, 6);
+    array2.set_value(4, 9);
+
+
+    array2.print_array();
+
+    array.add(array2);
+
+    array.print_array();
+
+
+    cout << array.get_value(2) << '\n';
+    cout << array.get_value(10) << '\n';
+    cout << array.get_value(-1) << '\n';
+    cout << array.get_value(5) << '\n';
+
+
     cout << "\n\nNO RTE\n";
 
     return 0;
