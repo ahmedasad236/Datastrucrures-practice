@@ -104,6 +104,8 @@ int main() {
     stk.insert_at_bottom(7);
     stk.insert_at_bottom(8);
     stk.display();
+
+    cout << "******************* Reverse stack *******************************************\n";
     stk.reverse();
     stk.display();
 
