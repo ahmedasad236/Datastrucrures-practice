@@ -93,5 +93,20 @@ int main() {
         stk.pop();
     } // 30 20 10
 
+
+    cout << "******************* Insert at the end *******************************************\n";
+    stk.push(1);
+    stk.push(2);
+    stk.push(3);
+    stk.push(4);
+    stk.push(5);
+    stk.display();
+    stk.insert_at_bottom(7);
+    stk.insert_at_bottom(8);
+    stk.display();
+    stk.reverse();
+    stk.display();
+
+
   return 0;
 }
