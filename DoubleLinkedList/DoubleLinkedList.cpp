@@ -230,12 +230,14 @@ public:
         if(!head) return;
 
         Node* newHead = head->next;
-        head->next->prev = nullptr;
         delete head;
-        head = newHead;
         length--;
-        if(!length) tail = nullptr;
-
+	if(newHead) {
+	   newHead->prev = nullptr;
+	   head = newHead;
+	} else {
+	   head = tail = nullptr;
+	}	
     }
 
     void delete_end() {
