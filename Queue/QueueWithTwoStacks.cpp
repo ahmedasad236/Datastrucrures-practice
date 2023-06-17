@@ -84,29 +84,33 @@ private:
     int added_elements;
     Stack s1;
     Stack s2;
+
+    void move(Stack& from, Stack& to) {
+        while(!from.isEmpty())
+            to.push(from.pop());
+    }
+
 public:
     Queue(int size = 10) : size(size), added_elements(0) {}
 /*
- * Implement dequeue to be O(1) and enqueue is O(4n)
+ * Implement dequeue to be O(1) and enqueue is O(n)
  *     void enqueue(int val) {
         assert(!isFull());
         added_elements++;
-        s1.clone_stack(s2);
-        s1.reverse();
-        s1.push(val);
-        s2.clone_stack(s1);
-        s2.reverse();
+	move(s1, s2);
+	s1.push(value);
+	move(s2, s1);
     }
 
     int dequeue() {
         assert(!isEmpty());
         added_elements--;
-        return s2.pop();
+        return s1.pop();
     }
 
  * */
 
-    // Implement dequeue to be O(4n) and enqueue is O(1)
+    // Implement dequeue to be O(n) and enqueue is O(1)
     void enqueue(int val) {
         assert(!isFull());
         added_elements++;
@@ -116,12 +120,9 @@ public:
 
     int dequeue() {
         assert(!isEmpty());
+        if(s2.isEmpty()) move(s1, s2);
         added_elements--;
-        s2.clone_stack(s1);
-        s2.reverse();
         int val = s2.pop();
-        s1.clone_stack(s2);
-        s1.reverse();
         return val;
     }
 
